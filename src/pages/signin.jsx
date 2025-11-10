@@ -20,18 +20,29 @@ export default function Signin() {
     const ctx = useContext(themeContext);
     const { registerFromPath } = ctx || {};
 
+    // Run once on mount: if we already have an active user, redirect them away from signin.
+    // Use replace + a systemRedirect flag to avoid route-guard loops and history pollution.
     useEffect(() => {
-        const raw = localStorage.getItem('activeUser');
-        if (raw) {
-            try {
-                const active = JSON.parse(raw);
-                if (active?.id && !window.location.search.includes('systemRedirect=true')) {
-                    const dest = active.admin ? '/dashboard_admin' : '/dashboard';
-                    if (window.location.pathname !== dest) router.push(dest, undefined, { shallow: true });
+        try {
+            if (typeof window === 'undefined') return;
+            // If this navigation already contains our system redirect flag, do nothing.
+            if (window.location.search.includes('systemRedirect=true')) return;
+            const raw = localStorage.getItem('activeUser');
+            if (!raw) return;
+            const active = JSON.parse(raw);
+            if (active?.id) {
+                const dest = active.admin ? '/dashboard_admin' : '/dashboard';
+                if (window.location.pathname !== dest) {
+                    // Use replace so we don't add an extra history entry and include the flag so
+                    // global route-guard knows this was an internal/system redirect and won't loop.
+                    router.replace(`${dest}?systemRedirect=true`);
                 }
-            } catch (_) {}
+            }
+        } catch (e) {
+            // swallow parse/navigation errors - don't crash the signin page
+            console.warn('Signin redirect check failed:', e);
         }
-    }, [router]);
+    }, []);
 
     const handleVerify = () => {
         if (verifyState === 'Default') {
@@ -106,7 +117,8 @@ export default function Signin() {
         try { sessionStorage.setItem('activeUser', JSON.stringify(activeUser)); } catch(_) {}
         setVerifyState('Default');
         const destination = activeUser.admin ? '/dashboard_admin' : '/profile';
-        router.push(`${destination}?systemRedirect=true`);
+        // Use replace to avoid adding history entries and to mark system redirects explicitly
+        router.replace(`${destination}?systemRedirect=true`);
     }
 
     return (
