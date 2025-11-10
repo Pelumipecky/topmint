@@ -294,12 +294,15 @@ const Signup = () => {
 
             <button 
               type="submit" 
-              className={`fancyBtn ${isLoading ? 'loading' : ''}`}
+              className="fancyBtn"
               style={{
-                opacity: (isLoading || verify !== "verified") ? 0.6 : 1,
+                opacity: isLoading ? 0.7 : 1,
                 cursor: isLoading ? 'not-allowed' : 'pointer',
-                pointerEvents: isLoading ? 'none' : 'auto'
+                pointerEvents: 'auto',
+                WebkitTapHighlightColor: 'transparent',
+                touchAction: 'manipulation'
               }}
+              disabled={isLoading}
             >
               {isLoading ? (
                 <span>
