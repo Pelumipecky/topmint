@@ -287,13 +287,21 @@ export default function AdminChat() {
                         </button>
                     )}
                     {selectedUser ? (
-                        <div>
+                        <div style={{ flex: 1 }}>
                             <h3 style={{ margin: 0, fontSize: '1rem', color: 'white' }}>User {selectedUser}</h3>
                             <small style={{ color: 'rgba(255,255,255,0.8)', fontSize: '0.8rem' }}>Active now</small>
                         </div>
                     ) : (
-                        <h3 style={{ margin: 0, fontSize: '1rem', color: 'white' }}>Select a user to start chatting</h3>
+                        <h3 style={{ margin: 0, fontSize: '1rem', color: 'white', flex: 1 }}>Select a user to start chatting</h3>
                     )}
+                    <button 
+                        onClick={handleDashboardClick}
+                        className={styles.mobileDashboardButton}
+                        aria-label="Back to Dashboard"
+                        title="Back to Dashboard"
+                    >
+                        <span style={{ fontSize: '20px', lineHeight: 1 }}>✕</span>
+                    </button>
                 </div>
                 <div className={styles.messageList}>
                     {messages.map((msg) => (
