@@ -220,12 +220,14 @@
     font-size: 0.95rem;
     line-height: 1.5;
     white-space: pre-wrap;
+    color: #000000;
 }
 
 .userMessage {
     background: white;
     margin-right: auto;
     border-bottom-left-radius: 2px;
+    color: #000000;
 }
 
 .userMessage::before {
@@ -245,6 +247,7 @@
     background: #d9fdd3;
     margin-left: auto;
     border-bottom-right-radius: 2px;
+    color: #000000;
 }
 
 .adminMessage::before {
