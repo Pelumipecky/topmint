@@ -13,6 +13,10 @@ export default function KYC({ currentUser }) {
   const [kycStatus, setKycStatus] = useState('');
   const [step, setStep] = useState(1);
 
+  // Debug logging
+  console.log('KYC Component Rendered - currentUser:', currentUser);
+  console.log('KYC Component - step:', step, 'kycStatus:', kycStatus);
+
   const storage = getStorage();
 
   useEffect(() => {
@@ -98,9 +102,10 @@ export default function KYC({ currentUser }) {
   const prevStep = () => setStep(s => Math.max(s - 1, 1));
 
   return (
-    <div className="investmentMainCntn">
+    <div className="investmentMainCntn" style={{ background: 'red', minHeight: '200px', padding: '20px' }}>
       <div className={styles.overviewSection}>
-        <h2>KYC & Verification</h2>
+        <h2 style={{ color: 'white' }}>KYC & Verification (DEBUG MODE)</h2>
+        <p style={{ color: 'white' }}>User: {currentUser?.name || 'No user'} | Status: {kycStatus || 'No status'}</p>
       </div>
 
       <div className={styles.kycContainer}>

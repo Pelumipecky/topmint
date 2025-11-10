@@ -516,7 +516,12 @@ const Profile = () => {
           <LoanSect currentUser={currentUser} />
         )}
         {profilestate === "KYC" && (
-          <KYC currentUser={currentUser} />
+          <div>
+            <div style={{ background: 'blue', color: 'white', padding: '10px' }}>
+              DEBUG: KYC State Active - profilestate: {profilestate}, currentUser: {currentUser?.name}
+            </div>
+            <KYC currentUser={currentUser} />
+          </div>
         )}
         {profilestate === "Withdrawals" && (
           <WithdrawalSect
