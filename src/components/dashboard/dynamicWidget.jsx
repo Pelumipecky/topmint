@@ -306,7 +306,7 @@ const DynamicWidget = ({widgetState, setWidgetState, currentUser, setCurrentUser
                                 textAlign: 'center',
                                 lineHeight: '1.4'
                             }}>
-                                Don't have a withdrawal code? Click the button above to request one from admin.
+                                Don&apos;t have a withdrawal code? Click the button above to request one from admin.
                             </p>
                         </form>
                     </div>
@@ -504,7 +504,7 @@ const DynamicWidget = ({widgetState, setWidgetState, currentUser, setCurrentUser
                                 textAlign: 'center',
                                 lineHeight: '1.4'
                             }}>
-                                You'll see full withdrawal details on the next page
+                                You&apos;ll see full withdrawal details on the next page
                             </p>
                         </form>
                     </div>
