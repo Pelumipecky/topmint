@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useRouter } from 'next/router';
 import { db } from "../../database/firebaseConfig";
 import { doc, addDoc, collection, query, where, getDocs, updateDoc } from "firebase/firestore";
 
 const WithdrawalPayment = ({setProfileState, withdrawData, bitPrice, ethPrice, currentUser}) => {
+    const router = useRouter();
     const [copystate, setCopystate] = useState("Copy");
     const [withdrawalCode, setWithdrawalCode] = useState("");
     const [error, setError] = useState("");
@@ -244,22 +246,47 @@ const WithdrawalPayment = ({setProfileState, withdrawData, bitPrice, ethPrice, c
                 padding: '1rem',
                 marginBottom: '1rem',
                 display: 'flex',
-                alignItems: 'center',
-                gap: '0.8rem'
+                flexDirection: 'column',
+                gap: '12px'
             }}>
-                <i className="icofont-warning" style={{ 
-                    fontSize: '1.5rem', 
-                    color: 'var(--danger-clr)',
-                    flexShrink: 0
-                }}></i>
-                <div>
-                    <strong style={{ color: 'var(--danger-clr)', display: 'block', marginBottom: '0.3rem' }}>
-                        KYC Verification Required
-                    </strong>
-                    <span style={{ fontSize: '0.9em', color: 'var(--text-clr1)' }}>
-                        You must complete KYC verification before you can withdraw funds. Please complete your KYC in the Profile section.
-                    </span>
+                <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.8rem'
+                }}>
+                    <i className="icofont-warning" style={{ 
+                        fontSize: '1.5rem', 
+                        color: 'var(--danger-clr)',
+                        flexShrink: 0
+                    }}></i>
+                    <div>
+                        <strong style={{ color: 'var(--danger-clr)', display: 'block', marginBottom: '0.3rem' }}>
+                            KYC Verification Required
+                        </strong>
+                        <span style={{ fontSize: '0.9em', color: 'var(--text-clr1)' }}>
+                            You must complete KYC verification before you can withdraw funds.
+                        </span>
+                    </div>
                 </div>
+                <button
+                    onClick={() => router.push('/kyc')}
+                    style={{
+                        background: 'var(--primary-clr)',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '6px',
+                        padding: '10px 16px',
+                        fontSize: '0.9rem',
+                        fontWeight: '500',
+                        cursor: 'pointer',
+                        alignSelf: 'flex-start',
+                        transition: 'background 0.2s'
+                    }}
+                    onMouseOver={(e) => e.target.style.background = '#0556a3'}
+                    onMouseOut={(e) => e.target.style.background = 'var(--primary-clr)'}
+                >
+                    Click here to complete your KYC
+                </button>
             </div>
         )}
 
