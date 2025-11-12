@@ -23,26 +23,31 @@ export default function Signin() {
     // Run once on mount: if we already have an active user, redirect them away from signin.
     // Use replace + a systemRedirect flag to avoid route-guard loops and history pollution.
     useEffect(() => {
-        try {
-            if (typeof window === 'undefined') return;
-            // If this navigation already contains our system redirect flag, do nothing.
-            if (window.location.search.includes('systemRedirect=true')) return;
-            const raw = localStorage.getItem('activeUser');
-            if (!raw) return;
-            const active = JSON.parse(raw);
-            if (active?.id) {
-                const dest = active.admin ? '/dashboard_admin' : '/dashboard';
-                if (window.location.pathname !== dest) {
-                    // Use replace so we don't add an extra history entry and include the flag so
-                    // global route-guard knows this was an internal/system redirect and won't loop.
-                    router.replace(`${dest}?systemRedirect=true`);
+        // Add a small delay to prevent rapid redirects
+        const timeoutId = setTimeout(() => {
+            try {
+                if (typeof window === 'undefined') return;
+                // If this navigation already contains our system redirect flag, do nothing.
+                if (window.location.search.includes('systemRedirect=true')) return;
+                const raw = localStorage.getItem('activeUser');
+                if (!raw) return;
+                const active = JSON.parse(raw);
+                if (active?.id) {
+                    const dest = active.admin ? '/dashboard_admin' : '/profile';
+                    if (window.location.pathname !== dest) {
+                        // Use replace so we don't add an extra history entry and include the flag so
+                        // global route-guard knows this was an internal/system redirect and won't loop.
+                        router.replace(`${dest}?systemRedirect=true`);
+                    }
                 }
+            } catch (e) {
+                // swallow parse/navigation errors - don't crash the signin page
+                console.warn('Signin redirect check failed:', e);
             }
-        } catch (e) {
-            // swallow parse/navigation errors - don't crash the signin page
-            console.warn('Signin redirect check failed:', e);
-        }
-    }, []);
+        }, 100);
+
+        return () => clearTimeout(timeoutId);
+    }, [router]);
 
     const handleVerify = () => {
         if (verifyState === 'Default') {

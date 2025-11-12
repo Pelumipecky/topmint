@@ -95,7 +95,7 @@ export default function App({ Component, pageProps }) {
       if (!publicPaths.includes(path) && !user?.id) {
         // avoid pushing to signin if we're already navigating there
         if (path !== '/signin') {
-          router.push('/signin?systemRedirect=true');
+          router.replace('/signin?systemRedirect=true');
         }
         return;
       }
@@ -104,7 +104,7 @@ export default function App({ Component, pageProps }) {
         const dest = user.admin ? '/dashboard_admin' : '/profile';
         // only navigate if not already on the destination
         if (path !== dest) {
-          router.push(`${dest}?systemRedirect=true`);
+          router.replace(`${dest}?systemRedirect=true`);
         }
       }
     };
